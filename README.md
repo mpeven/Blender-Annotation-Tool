@@ -1,17 +1,17 @@
-# Blender-Annotation-Tool
-This is the repository for a project aimed at annotating parts of 3D models.
+# Blender Annotation Tool
+Tools for annotating and using 3D models for synthetic data generation.
 
 Although this can be used in many ways, the initial reason for creating this project is to label
-the parts of (ShapeNet)[www.shapenet.org] car models so that the doors and trunks can be deformed
+the parts of [ShapeNet](www.shapenet.org) car models so that the doors and trunks can be deformed
 in a data generation pipeline for RGB images and semantic segmentation images.
 
 
 # Project Layout
 
-## annotation_tools
-The tools used with (Blender)[https://www.blender.org] to annotate models.
+### [annotation_tools](https://github.com/mpeven/Blender-Annotation-Tool/tree/master/annotation_tools)
+The tools used with [Blender](https://www.blender.org) to annotate models.
 
-## automatic_annotation
+### [automatic_annotation](https://github.com/mpeven/Blender-Annotation-Tool/tree/master/automatic_annotation)
 Automatic transfer of annotations to un-annotated models.
 
 This uses and unsupervised clustering method based on shape descriptors to find similar models to
@@ -19,7 +19,7 @@ the source model (the hand-annotated model) and transfers the vertices belonging
 annotated parts of this source model by locating the vertices in a 3D bounding box of a target
 model (the un-annotated models in the same cluster).
 
-## export_tools
+### [export_tools](https://github.com/mpeven/Blender-Annotation-Tool/tree/master/export_tools)
 For exporting the annotations in various ways.
 
 1. Contains a script for creating .obj files from the annotations.
