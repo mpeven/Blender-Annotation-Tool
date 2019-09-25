@@ -44,5 +44,4 @@ blender --python annotation_tools/annotate.py -- -m <shapenet model id> -o <obje
 
 # TODO
 
-1. Add Unreal import scripts
-2. Switch to Blender 2.8
+1. Update to Blender 2.8
