@@ -2,7 +2,7 @@
 This needs to be run from inside Unreal Engine
 
 To do this, you will need to do the following:
-1. Install "Python Editor Script Plugin"
+1. Enable both "Python Editor Script Plugin" and "Editor Scripting Utilities" in plugins
 2. Click "Window" -> "Developer Tools" -> "Output Log"
 3. Click "Cmd" and switch to "Python"
 4. Type in the full path of this script
@@ -13,26 +13,30 @@ import glob
 import os
 
 def main():
-    # car_models_directory = '/home/mike/Projects/DIVA/car_models/car_models_auto_annotated'
-    # destination_path = '/Game/ShapenetAutomatic'
     car_models_directory = '/home/mike/Projects/DIVA/car_models/car_models_hand_annotated'
     destination_path = '/Game/ShapenetManual'
 
     # Get all obj files
     files_to_import = get_all_obj_files(car_models_directory)
 
+    # Delete existing
+    unreal.EditorAssetLibrary.delete_directory(directory_path=destination_path)
+
     # Create progress bar
     with unreal.ScopedSlowTask(len(files_to_import), "Importing Assets") as slow_task:
         slow_task.make_dialog(True)
-        for file in files_to_import:
+        for idx, file in enumerate(files_to_import):
+            # Update progress bar
+            if slow_task.should_cancel():
+                exit()
+            slow_task.enter_progress_frame(1, "Importing Assets ({}/{})".format(idx+1, len(files_to_import)))
+
             # Import mesh and textures
             task = build_import_task(file, destination_path)
             unreal.AssetToolsHelpers.get_asset_tools().import_asset_tasks([task])
 
-            # Update progress bar
-            if slow_task.should_cancel():
-                break
-            slow_task.enter_progress_frame(1)
+            # Save data
+            unreal.EditorLoadingAndSavingUtils.save_dirty_packages(save_map_packages=False, save_content_packages=True)
 
 
 def get_all_obj_files(directory):
